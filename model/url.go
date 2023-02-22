@@ -7,7 +7,7 @@ type URL struct {
 	Short     string    `bson:"_id"`
 	Origin    string    `bson:"origin"`
 	CreatedAt time.Time `bson:"createdAt"`
-	Views     int       `bson:"views"`
+	Views     uint64    `bson:"views"`
 }
 
 // NewURL creates a new URL.
