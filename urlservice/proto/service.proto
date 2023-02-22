@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package = "github.com/karalef/shlink/urlservice/proto";
+
+import "google/protobuf/timestamp.proto";
+
+service URLService {
+    rpc CreateShort(Origin) returns (Short);
+    rpc GetOrigin(Short) returns (Origin);
+    rpc Get(Short) returns (URL);
+}
+
+message Origin {
+    string url = 1;
+}
+
+message Short {
+    string id = 1;
+}
+
+message URL {
+    string short = 1;
+    string origin = 2;
+    google.protobuf.Timestamp createdAt = 3;
+    uint64 views = 4;
+}
