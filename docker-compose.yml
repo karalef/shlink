@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    command: --quiet
+    # volumes:
+      # - ${MONGO_DATA_DB}:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: shlink
+      MONGO_INITDB_ROOT_PASSWORD: shlink
+      MONGO_INITDB_DATABASE: shlink
+
+  api:
+    build:
+      context: .
+      dockerfile: deploy/api.Dockerfile
+    depends_on:
+      - mongo
+    environment:
+      PORT: 9898
+      MONGO_ADDR: mongo:27017
+      MONGO_DATABASE: shlink
+      MONGO_USER: shlink
+      MONGO_PASS: shlink
+      MONGO_COLLECTION: urls
+
+  app:
+    build:
+      context: .
+      dockerfile: deploy/app.Dockerfile
+    depends_on:
+      - api
+    environment:
+      PORT: 8080
+      SERVICE_ADDR: api:9898
+      APP_URL: http://localhost:8080
+    ports:
+      - "8080:8080"
