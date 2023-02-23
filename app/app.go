@@ -86,6 +86,16 @@ func (a *App) HandleData(ctx *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	u.Short = a.MakeURL(id)
-	return json.NewEncoder(ctx).Encode(u)
+	data := struct {
+		Short   string    `json:"short"`
+		URL     string    `json:"url"`
+		Created time.Time `json:"created_at"`
+		Views   uint64    `json:"views"`
+	}{
+		Short:   a.MakeURL(u.Short),
+		URL:     u.Origin,
+		Created: u.CreatedAt.AsTime(),
+		Views:   u.Views,
+	}
+	return json.NewEncoder(ctx).Encode(data)
 }

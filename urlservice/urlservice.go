@@ -89,7 +89,7 @@ func (s *URLService) Get(ctx context.Context, short *proto.Short) (*proto.URL, e
 	}
 	return &proto.URL{
 		Short:     u.Short,
-		Origin:    u.Short,
+		Origin:    u.Origin,
 		CreatedAt: timestamppb.New(u.CreatedAt),
 		Views:     u.Views,
 	}, nil
